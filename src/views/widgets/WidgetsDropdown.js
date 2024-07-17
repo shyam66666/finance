@@ -393,4 +393,4 @@ WidgetsDropdown.propTypes = {
   withCharts: PropTypes.bool,
 }
 
-export default WidgetsDropdown
+export default WidgetsDropdown;

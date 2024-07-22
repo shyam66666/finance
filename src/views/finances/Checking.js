@@ -17,12 +17,12 @@ import {
   CFormLabel,
   CFormInput,
   CFormTextarea,
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableBody,
-  CTableDataCell,
+  // CTable,
+  // CTableHead,
+  // CTableRow,
+  // CTableHeaderCell,
+  // CTableBody,
+  // CTableDataCell,
 } from '@coreui/react';
 import { CChartLine } from '@coreui/react-chartjs';
 import { getStyle } from '@coreui/utils';
@@ -30,9 +30,7 @@ import CIcon from '@coreui/icons-react';
 import { cilOptions } from '@coreui/icons';
 
 function Checking() {
-  const [registrationList, setRegistrationList] = useState([]);
   const [newRegistration, setNewRegistration] = useState(false);
-  const [showRegisteredList, setShowRegisteredList] = useState(false);
   const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
   const [tenure, setTenure] = useState('');
   const [finalDate, setFinalDate] = useState('');
@@ -115,27 +113,7 @@ function Checking() {
       return;
     }
 
-    const newEntry = {
-      fullName,
-      email,
-      address,
-      phoneNumber,
-      principal,
-      rate,
-      startDate,
-      tenure,
-      finalDate,
-      interest,
-      totalAmount,
-      documents: {
-        aadhaar,
-        collateral,
-        promissoryNote,
-        photo,
-      },
-    };
 
-    setRegistrationList([...registrationList, newEntry]);
     setNewRegistration(false);
     resetForm();
   };
@@ -172,9 +150,7 @@ function Checking() {
                   <CIcon icon={cilOptions} className="text-white" />
                 </CDropdownToggle>
                 <CDropdownMenu>
-                  <CDropdownItem onClick={() => setShowRegisteredList(true)}>
-                    Registered list
-                  </CDropdownItem>
+                
                   <CDropdownItem onClick={() => setNewRegistration(true)}>
                     New person Registration
                   </CDropdownItem>
@@ -413,53 +389,8 @@ function Checking() {
           </CModalBody>
         </CModal>
 
-        {/* Modal for Registered List */}
-        <CModal
-          scrollable
-          visible={showRegisteredList}
-          onClose={() => setShowRegisteredList(false)}
-          size="xl"
-        >
-          <CModalHeader closeButton>
-            <CModalTitle id="RegisteredList">Registered List</CModalTitle>
-          </CModalHeader>
-          <CModalBody>
-            <CTable>
-              <CTableHead>
-                <CTableRow>
-                  <CTableHeaderCell>Name</CTableHeaderCell>
-                  <CTableHeaderCell>Email</CTableHeaderCell>
-                  <CTableHeaderCell>Phone</CTableHeaderCell>
-                  <CTableHeaderCell>Principal</CTableHeaderCell>
-                  <CTableHeaderCell>Rate</CTableHeaderCell>
-                  <CTableHeaderCell>Start Date</CTableHeaderCell>
-                  <CTableHeaderCell>Tenure</CTableHeaderCell>
-                  <CTableHeaderCell>Final Date</CTableHeaderCell>
-                  <CTableHeaderCell>Interest</CTableHeaderCell>
-                  <CTableHeaderCell>Total Amount</CTableHeaderCell>
-                  <CTableHeaderCell>Address</CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody>
-                {registrationList.map((entry, index) => (
-                  <CTableRow key={index}>
-                    <CTableDataCell>{entry.fullName}</CTableDataCell>
-                    <CTableDataCell>{entry.email}</CTableDataCell>
-                    <CTableDataCell>{entry.phoneNumber}</CTableDataCell>
-                    <CTableDataCell>{entry.principal}</CTableDataCell>
-                    <CTableDataCell>{entry.rate}</CTableDataCell>
-                    <CTableDataCell>{entry.startDate}</CTableDataCell>
-                    <CTableDataCell>{entry.tenure}</CTableDataCell>
-                    <CTableDataCell>{entry.finalDate}</CTableDataCell>
-                    <CTableDataCell>{entry.interest}</CTableDataCell>
-                    <CTableDataCell>{entry.totalAmount}</CTableDataCell>
-                    <CTableDataCell>{entry.address}</CTableDataCell>
-                  </CTableRow>
-                ))}
-              </CTableBody>
-            </CTable>
-          </CModalBody>
-        </CModal>
+        
+      
       </CRow>
     </div>
   );

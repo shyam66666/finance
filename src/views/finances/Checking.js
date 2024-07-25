@@ -17,17 +17,12 @@ import {
   CFormLabel,
   CFormInput,
   CFormTextarea,
-  // CTable,
-  // CTableHead,
-  // CTableRow,
-  // CTableHeaderCell,
-  // CTableBody,
-  // CTableDataCell,
 } from '@coreui/react';
 import { CChartLine } from '@coreui/react-chartjs';
 import { getStyle } from '@coreui/utils';
 import CIcon from '@coreui/icons-react';
 import { cilOptions } from '@coreui/icons';
+import axios from 'axios';
 
 function Checking() {
   const [newRegistration, setNewRegistration] = useState(false);
@@ -79,7 +74,7 @@ function Checking() {
 
   const calculateInterest = (principal, rate, tenure) => {
     const dailyRate = rate / 365;
-    return (principal * dailyRate * tenure)/100;
+    return (principal * dailyRate * tenure) / 100;
   };
 
   const handleFileChange = (e, setFileState) => {
@@ -96,7 +91,7 @@ function Checking() {
 
   const handlePhoneNumberChange = (e) => {
     const value = e.target.value;
-    const phoneNumberRegex = /^\d{0,10}$/;
+    const phoneNumberRegex = /^\d{0,10}$/
 
     if (phoneNumberRegex.test(value)) {
       setPhoneNumber(value);
@@ -106,16 +101,48 @@ function Checking() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (error || phnError) {
       return;
     }
 
+    const formData = new FormData();
+    formData.append('fullName', fullName);
+    formData.append('email', email);
+    formData.append('phoneNumber', phoneNumber);
+    formData.append('address', address);
+    formData.append('principal', principal);
+    formData.append('rate', rate);
+    formData.append('startDate', startDate);
+    formData.append('tenure', tenure);
+    formData.append('finalDate', finalDate);
+    formData.append('interest', interest);
+    formData.append('totalAmount', totalAmount);
+    formData.append('aadhaar', aadhaar.file);
+    formData.append('collateral', collateral.file);
+    formData.append('promissoryNote', promissoryNote.file);
+    formData.append('photo', photo.file);
 
-    setNewRegistration(false);
-    resetForm();
+    
+    try {
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.status === 200) {
+        console.log('Form submitted successfully');
+        setNewRegistration(false);
+        resetForm();
+      } else {
+        console.error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const resetForm = () => {
@@ -150,7 +177,6 @@ function Checking() {
                   <CIcon icon={cilOptions} className="text-white" />
                 </CDropdownToggle>
                 <CDropdownMenu>
-                
                   <CDropdownItem onClick={() => setNewRegistration(true)}>
                     New person Registration
                   </CDropdownItem>
@@ -231,7 +257,7 @@ function Checking() {
           <CModalBody>
             <CForm onSubmit={handleSubmit}>
               <div className="mb-3">
-                <CFormLabel htmlFor="Name">Full Name</CFormLabel>
+                <CFormLabel htmlFor="newPersonName">Full Name</CFormLabel>
                 <CFormInput
                   type="text"
                   id="newPersonName"
@@ -244,40 +270,34 @@ function Checking() {
 
               <div className="mb-3">
                 <CFormLabel htmlFor="Email">Email:</CFormLabel>
-                <CFormInput type="text" value={email} onChange={handleEmailChange} required />
-                {error && <p className="text-danger">{error}</p>}
+                <CFormInput type="email" value={email} onChange={handleEmailChange} required />
+                {error && <div style={{ color: 'red' }}>{error}</div>}
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="Phone">Phone Number:</CFormLabel>
-                <CFormInput
-                  type="tel"
-                  id="Phone"
-                  value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
-                  maxLength="10"
-                  required
-                />
-                {phnError && <p className="text-danger">{phnError}</p>}
+                <CFormLabel htmlFor="PhoneNumber">Phone Number:</CFormLabel>
+                <CFormInput type="tel" value={phoneNumber} onChange={handlePhoneNumberChange} required />
+                {phnError && <div style={{ color: 'red' }}>{phnError}</div>}
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="Address">Address:</CFormLabel>
+                <CFormLabel htmlFor="address">Address</CFormLabel>
                 <CFormTextarea
-                  id="Address"
-                  placeholder="Enter Address"
+                  id="address"
+                  rows="3"
+                  placeholder="Enter address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   required
-                />
+                ></CFormTextarea>
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="Principal">Principal:</CFormLabel>
+                <CFormLabel htmlFor="principal">Principal</CFormLabel>
                 <CFormInput
                   type="number"
-                  id="Principal"
-                  placeholder="Principal Amount"
+                  id="principal"
+                  placeholder="Enter Principal Amount"
                   value={principal}
                   onChange={(e) => setPrincipal(e.target.value)}
                   required
@@ -285,11 +305,11 @@ function Checking() {
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="Rate">Rate:</CFormLabel>
+                <CFormLabel htmlFor="rate">Rate of Interest</CFormLabel>
                 <CFormInput
                   type="number"
-                  id="Rate"
-                  placeholder="Rate of interest"
+                  id="rate"
+                  placeholder="Enter Rate of Interest"
                   value={rate}
                   onChange={(e) => setRate(e.target.value)}
                   required
@@ -308,10 +328,11 @@ function Checking() {
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="Tenure">Tenure (in days):</CFormLabel>
+                <CFormLabel htmlFor="tenure">Tenure (in days)</CFormLabel>
                 <CFormInput
                   type="number"
-                  id="Tenure"
+                  id="tenure"
+                  placeholder="Enter Tenure in days"
                   value={tenure}
                   onChange={handleTenureChange}
                   required
@@ -319,78 +340,55 @@ function Checking() {
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="finalDate">Final Date:</CFormLabel>
-                <CFormInput type="text" id="finalDate" value={finalDate} readOnly />
+                <CFormLabel htmlFor="finalDate">Final Date</CFormLabel>
+                <CFormInput type="date" id="finalDate" value={finalDate} readOnly />
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="Interest">Interest:</CFormLabel>
-                <CFormInput type="number" id="Interest" value={interest} readOnly />
+                <CFormLabel htmlFor="interest">Interest</CFormLabel>
+                <CFormInput type="number" id="interest" value={interest || ''} readOnly />
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="TotalAmount">Total Amount:</CFormLabel>
-                <CFormInput type="number" id="TotalAmount" value={totalAmount} readOnly />
+                <CFormLabel htmlFor="totalAmount">Total Amount</CFormLabel>
+                <CFormInput type="number" id="totalAmount" value={totalAmount || ''} readOnly />
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="aadhaar">Aadhaar:</CFormLabel>
-                <CFormInput
-                  type="file"
-                  id="aadhaar"
-                  onChange={(e) => handleFileChange(e, setAadhaar)}
-                  required
-                />
-                {aadhaar.name && <p>Selected File: {aadhaar.name}</p>}
+                <CFormLabel htmlFor="aadhaar">Aadhaar</CFormLabel>
+                <CFormInput type="file" id="aadhaar" onChange={(e) => handleFileChange(e, setAadhaar)} required />
+                {aadhaar.name && <div>{aadhaar.name}</div>}
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="collateral">Collateral:</CFormLabel>
-                <CFormInput
-                  type="file"
-                  id="collateral"
-                  onChange={(e) => handleFileChange(e, setCollateral)}
-                  required
-                />
-                {collateral.name && <p>Selected File: {collateral.name}</p>}
+                <CFormLabel htmlFor="collateral">Collateral</CFormLabel>
+                <CFormInput type="file" id="collateral" onChange={(e) => handleFileChange(e, setCollateral)} required />
+                {collateral.name && <div>{collateral.name}</div>}
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="promissoryNote">Promissory Note:</CFormLabel>
-                <CFormInput
-                  type="file"
-                  id="promissoryNote"
-                  onChange={(e) => handleFileChange(e, setPromissoryNote)}
-                  required
-                />
-                {promissoryNote.name && <p>Selected File: {promissoryNote.name}</p>}
+                <CFormLabel htmlFor="promissoryNote">Promissory Note</CFormLabel>
+                <CFormInput type="file" id="promissoryNote" onChange={(e) => handleFileChange(e, setPromissoryNote)} required />
+                {promissoryNote.name && <div>{promissoryNote.name}</div>}
               </div>
 
               <div className="mb-3">
-                <CFormLabel htmlFor="photo">Photo:</CFormLabel>
-                <CFormInput
-                  type="file"
-                  id="photo"
-                  onChange={(e) => handleFileChange(e, setPhoto)}
-                  required
-                />
-                {photo.name && <p>Selected File: {photo.name}</p>}
+                <CFormLabel htmlFor="photo">Photo</CFormLabel>
+                <CFormInput type="file" id="photo" onChange={(e) => handleFileChange(e, setPhoto)} required />
+                {photo.name && <div>{photo.name}</div>}
               </div>
 
-              <CModalFooter>
-                <CButton color="secondary" onClick={() => setNewRegistration(false)}>
-                  Close
-                </CButton>
-                <CButton color="primary" type="submit">
-                  Submit
-                </CButton>
-              </CModalFooter>
+              <CButton type="submit" color="primary">
+                Submit
+              </CButton>
             </CForm>
           </CModalBody>
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setNewRegistration(false)}>
+              Close
+            </CButton>
+          </CModalFooter>
         </CModal>
-
-        
-      
       </CRow>
     </div>
   );

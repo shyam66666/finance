@@ -29,6 +29,7 @@ import { CChartLine } from '@coreui/react-chartjs';
 import CIcon from '@coreui/icons-react';
 import { cilOptions } from '@coreui/icons';
 
+
 function Monthly() {
   const [registrationList, setRegistrationList] = useState([]);
   const [newRegistration, setNewRegistration] = useState(false);
@@ -181,7 +182,7 @@ function Monthly() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newEntry = {
+    const data = {
       fullName,
       email,
       address,
@@ -209,10 +210,11 @@ function Monthly() {
       },
     };
 
-    setRegistrationList([...registrationList, newEntry]);
+    setRegistrationList({...data, [e.target.name]: e.target.value});
     setNewRegistration(false);
     resetForm();
   };
+
 
   const resetForm = () => {
     setFullName('');

@@ -395,3 +395,157 @@ function Checking() {
 }
 
 export default Checking;
+
+
+// const handleSubmit = async (e) => {
+//   e.preventDefault();
+
+  // const formData = {
+  //   fullName,
+  //   email,
+  //   phoneNumber,
+  //   address,
+  //   principal,
+  //   rate,
+  //   startDate,
+  //   tenure,
+  //   finalDate,
+  //   interest,
+  //   totalAmount,
+  //   guarantorFullName,
+  //   guarantorPhoneNumber,
+  //   guarantorAddress,
+  //   gemail,
+  // };
+
+
+// try {
+//   const response = await axios.post('https://jsonplaceholder.typicode.com/posts', formData);
+//   console.log(response.data);
+//   setNewRegistration(false);
+//   // resetForm(); // Uncomment this line to reset the form after submission
+// } catch (error) {
+//   console.error('Error submitting form:', error);
+// }
+// };
+
+
+
+// const handleDateChange = (e) => {
+//   setStartDate(e.target.value);
+// };
+
+// const handleTenureChange = (e) => {
+//   const selectedTenure = e.target.value;
+//   setTenure(selectedTenure);
+
+//   const finalDate = getFinalDate(startDate, selectedTenure);
+//   setFinalDate(finalDate);
+
+//   if (principal && rate) {
+//     const interest = calculateInterest(principal, rate, selectedTenure);
+//     setInterest(interest);
+//     setTotalAmount(parseFloat(principal) + interest);
+//   }
+// };
+
+// const getFinalDate = (startDateString, months) => {
+//   if (startDateString === '' || months === '') return '';
+
+//   const startDate = new Date(startDateString);
+//   const finalDate = new Date(startDate);
+
+//   finalDate.setMonth(startDate.getMonth() + parseInt(months, 10));
+//   return finalDate.toISOString().split('T')[0];
+// };
+
+// const handlePrincipalChange = (e) => {
+//   setPrincipal(e.target.value);
+// };
+
+// const handleRateChange = (e) => {
+//   setRate(e.target.value);
+// };
+
+// const calculateInterest = (principal, rate, tenure) => {
+//   return (principal * rate * tenure) / 100;
+// };
+
+// const handleAadhaarChange = (e) => {
+//   const file = e.target.files[0];
+//   setAadhaar({ file, name: file.name });
+// };
+
+// const handleCollateralChange = (e) => {
+//   const file = e.target.files[0];
+//   setCollateral({ file, name: file.name });
+// };
+
+// const handlePromissoryNoteChange = (e) => {
+//   const file = e.target.files[0];
+//   setPromissoryNote({ file, name: file.name });
+// };
+
+// const handlePhotoChange = (e) => {
+//   const file = e.target.files[0];
+//   setPhoto({ file, name: file.name });
+// };
+
+// const handleEmailChange = (e) => {
+//   const value = e.target.value;
+//   setEmail(value);
+//   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+//   setError(regex.test(value) ? '' : 'Invalid email address.');
+// };
+
+// const handlePhoneNumberChange = (e) => {
+//   const value = e.target.value;
+//   const phoneNumberRegex = /^\d{0,10}$/;
+
+//   if (phoneNumberRegex.test(value)) {
+//     setPhoneNumber(value);
+//     setPhnError('');
+//   } else {
+//     setPhnError('Phone number must be 10 digits.');
+//   }
+// };
+
+// const handleFullNameChange = (e) => {
+//   setFullName(e.target.value);
+// };
+
+// const handleAddressChange = (e) => {
+//   setAddress(e.target.value);
+// };
+
+// const handleGuarantorFullNameChange = (e) => {
+//   setGuarantorFullName(e.target.value);
+// };
+// const handleGuarantorPhoneNumberChange = (e) => {
+//   const value = e.target.value;
+//   const gphoneNumberRegex = /^\d{0,10}$/;
+//   if (gphoneNumberRegex.test(value)) {
+//     setGuarantorPhoneNumber(value);
+//     setgPhnError('');
+//   } else {
+//     setgPhnError('Phone number must be 10 digits.');
+//   }
+// };
+
+// const handleGuarantorAddressChange = (e) => {
+//   setGuarantorAddress(e.target.value);
+// };
+// const handlegEmailChange = (e) => {
+//   const value = e.target.value;
+//   setgEmail(value);
+//   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+//   setgError(regex.test(value) ? '' : 'Invalid email address.');
+// };
+// const handlegAadhaarChange = (e) => {
+//   const file = e.target.files[0];
+//   setgAadhaar({ file, name: file.name });
+// };
+// const handlegPhotoChange = (e) => {
+//   const file = e.target.files[0];
+//   setgPhoto({ file, name: file.name });
+// };

@@ -13,6 +13,11 @@ const _nav = [
     to: '/finances',
   },
   {
+    component: CNavItem,
+    name: 'Farmer',
+    to: '/farmer',
+  },
+  {
     component: CNavGroup,
     name: 'Notifications',
     icon: <CIcon icon={cilBell} customClassName="nav-icon" />,

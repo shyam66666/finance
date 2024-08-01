@@ -54,9 +54,6 @@ function Daily() {
   const [gphoto, setgPhoto] = useState({ file: null, name: '' });
 
 
-
-
-
   const handleDateChange = (e) => {
     setStartDate(e.target.value);
   };
@@ -243,6 +240,7 @@ function Daily() {
     setgAadhaar({ file: null, name: '' });
     setgPhoto({ file: null, name: '' });
   };
+  
 
  
   return (

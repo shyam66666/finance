@@ -18,22 +18,18 @@ import {
   CFormInput,
   CFormTextarea,
   CFormSelect,
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableBody,
-  CTableDataCell,
+ 
 } from '@coreui/react';
 import { CChartLine } from '@coreui/react-chartjs';
 import CIcon from '@coreui/icons-react';
 import { cilOptions } from '@coreui/icons';
+import axios from 'axios';
 
 
 function Monthly() {
-  const [registrationList, setRegistrationList] = useState([]);
+ 
   const [newRegistration, setNewRegistration] = useState(false);
-  const [showRegisteredList, setShowRegisteredList] = useState(false);
+  
   const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
   const [tenure, setTenure] = useState('');
   const [finalDate, setFinalDate] = useState('');
@@ -210,10 +206,17 @@ function Monthly() {
       },
     };
 
-    setRegistrationList({...data, [e.target.name]: e.target.value});
-    setNewRegistration(false);
-    resetForm();
-  };
+    axios.post("https://jsonplaceholder.typicode.com/posts", data)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.error("There was an error!", error);
+    });
+
+  setNewRegistration(false);
+  resetForm();
+};
 
 
   const resetForm = () => {
@@ -254,9 +257,7 @@ function Monthly() {
                   <CIcon icon={cilOptions} className="text-white" />
                 </CDropdownToggle>
                 <CDropdownMenu>
-                  <CDropdownItem onClick={() => setShowRegisteredList(true)}>
-                    Registered list
-                  </CDropdownItem>
+                 
                   <CDropdownItem onClick={() => setNewRegistration(true)}>
                     New person Registration
                   </CDropdownItem>
@@ -555,145 +556,8 @@ function Monthly() {
         </CModal>
       </CRow>
 
-      {/* Modal for Registered List */}
-      <CModal scrollable visible={showRegisteredList} onClose={() => setShowRegisteredList(false)} size="xl">
-        <CModalHeader closeButton>
-          <CModalTitle id="RegisteredList">Registered List</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          {registrationList.length > 0 ? (
-            <CTable>
-              <CTableHead>
-                <CTableRow>
-                  <CTableHeaderCell scope="col">SL.No</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Name</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Email</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Address</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Phone Number</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Principal</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Rate</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Start Date</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Tenure</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">End Date</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Interest</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Total Amount</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Documents</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Name</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Phone Number</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Email</CTableHeaderCell>
-                   <CTableHeaderCell scope="col">Address</CTableHeaderCell>
-                   <CTableHeaderCell scope="col">Documents</CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody>
-                {registrationList.map((item, index) => (
-                  <CTableRow key={index}>
-                    <CTableHeaderCell scope="row">{index + 1}</CTableHeaderCell>
-                    <CTableDataCell>{item.fullName}</CTableDataCell>
-                    <CTableDataCell>{item.email}</CTableDataCell>
-                    <CTableDataCell>{item.address}</CTableDataCell>
-                    <CTableDataCell>{item.phoneNumber}</CTableDataCell>
-                    <CTableDataCell>{item.principal}</CTableDataCell>
-                    <CTableDataCell>{item.rate}</CTableDataCell>
-                    <CTableDataCell>{item.startDate}</CTableDataCell>
-                    <CTableDataCell>{item.tenure}</CTableDataCell>
-                    <CTableDataCell>{item.finalDate}</CTableDataCell>
-                    <CTableDataCell>{item.interest.toFixed(2)}</CTableDataCell>
-                    <CTableDataCell>{item.totalAmount.toFixed(2)}</CTableDataCell>
-                    <CTableDataCell>
-                    <ul style={{ listStyleType: 'none', padding: 0 }}>
-  <li>
-    <a
-      href={URL.createObjectURL(item.documents.aadhaar.file)}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}
-    >
-      Aadhaar Card
-    </a>
-  </li>
-  <li>
-    <a
-      href={URL.createObjectURL(item.documents.collateral.file)}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}
-    >
-      Collateral
-    </a>
-  </li>
-  <li>
-    <a
-      href={URL.createObjectURL(item.documents.promissoryNote.file)}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}
-    >
-      Promissory Note
-    </a>
-  </li>
-  <li>
-    <a
-      href={URL.createObjectURL(item.documents.photo.file)}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}
-    >
-      Photo
-    </a>
-  </li>
-</ul>
-
-                    </CTableDataCell>
-
-                    <CTableDataCell>{item.guarantorFullName}</CTableDataCell>
-                    <CTableDataCell>{item.guarantorPhoneNumber}</CTableDataCell>
-                    <CTableDataCell>{item.gemail}</CTableDataCell>
-                    <CTableDataCell>{item.guarantorAddress}</CTableDataCell>
-
-                    <CTableDataCell>
-                    <ul style={{ listStyleType: 'none', padding: 0 }}>
-  <li>
-    <a
-      href={URL.createObjectURL(item.gdocuments.gaadhaar.file)}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}
-    >
-      Aadhaar Card
-    </a>
-  </li>
- 
-  <li>
-    <a
-      href={URL.createObjectURL(item.gdocuments.gphoto.file)}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ textDecoration: 'underline', color: 'blue', cursor: 'pointer' }}
-    >
-      Photo
-    </a>
-  </li>
-</ul>
-
-
-                    </CTableDataCell>
-                  </CTableRow>
-                ))}
-              </CTableBody>
-            </CTable>
-          ) : (
-            <p>No registrations available.</p>
-          )}
-        </CModalBody>
-        <CModalFooter>
-          <CButton color="secondary" onClick={() => setShowRegisteredList(false)}>
-            Close
-          </CButton>
-        </CModalFooter>
-        
-      </CModal>
-    </div>
+      
+        </div>
   );
 }
 

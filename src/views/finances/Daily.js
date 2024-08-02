@@ -27,6 +27,9 @@ import axios from 'axios';
 function Daily() {
   
   const [newRegistration, setNewRegistration] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [submittedData, setSubmittedData] = useState(null);
+
   const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 10));
   const [tenure, setTenure] = useState('');
   const [finalDate, setFinalDate] = useState('');
@@ -190,27 +193,29 @@ function Daily() {
       interest,
       totalAmount,
       documents: {
-        aadhaar,
-        collateral,
-        promissoryNote,
-        photo,
+        aadhaar: { ...aadhaar, url: URL.createObjectURL(aadhaar.file) },
+        collateral: { ...collateral, url: URL.createObjectURL(collateral.file) },
+        promissoryNote: { ...promissoryNote, url: URL.createObjectURL(promissoryNote.file) },
+        photo: { ...photo, url: URL.createObjectURL(photo.file) },
       },
       guarantorFullName,
       guarantorPhoneNumber,
       gemail,
       guarantorAddress,
       gdocuments: {
-        gaadhaar,
-        gphoto,
+        gaadhaar: { ...gaadhaar, url: URL.createObjectURL(gaadhaar.file) },
+      gphoto: { ...gphoto, url: URL.createObjectURL(gphoto.file) },
       },
     };
 
     axios.post("https://jsonplaceholder.typicode.com/posts", data)
       .then((response) => {
         console.log(response.data);
+        setSubmittedData(data);
+        setSuccessMessage(true);
       })
       .catch((error) => {
-        console.error("There was an error!", error);
+        console.error('There was an error!', error);
       });
 
     setNewRegistration(false);
@@ -538,14 +543,52 @@ function Daily() {
             </CForm>
              </CModalBody>
         </CModal>
+
+        <CModal alignment="center" visible={successMessage} onClose={() => setSuccessMessage(false)}>
+        <CModalHeader>
+          <CModalTitle><h3 style={{ color: 'green', fontStyle:'oblique'}}>Submitted Successfully</h3></CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <p>Loan successfully added with the following details:</p>
+          {submittedData && (
+            <div>
+              <p><strong>Full Name:</strong> {submittedData.fullName}</p>
+              <p><strong>Phone Number:</strong> {submittedData.phoneNumber}</p>
+              <p><strong>Email:</strong> {submittedData.email}</p>
+              <p><strong>Address:</strong> {submittedData.address}</p>
+              <p><strong>Aadhaar Card Attached:</strong> <a href={submittedData.documents.aadhaar.url} target="_blank" rel="noopener noreferrer">{submittedData.documents.aadhaar.name}</a></p>
+              <p><strong>Collateral Document Attached:</strong> <a href={submittedData.documents.collateral.url} target="_blank" rel="noopener noreferrer">{submittedData.documents.collateral.name}</a></p>
+              <p><strong>Principal:</strong> {submittedData.principal}</p>
+              <p><strong>Rate:</strong> {submittedData.rate}%</p>
+              <p><strong>Start Date:</strong> {submittedData.startDate}</p>
+              <p><strong>Tenure:</strong> {submittedData.tenure} days</p>
+              <p><strong>Final Date:</strong> {submittedData.finalDate}</p>
+              <p><strong>Promissory Note Attached:</strong> <a href={submittedData.documents.promissoryNote.url} target="_blank" rel="noopener noreferrer">{submittedData.documents.promissoryNote.name}</a></p>
+              <p><strong>Photo Attached:</strong> <a href={submittedData.documents.photo.url} target="_blank" rel="noopener noreferrer">{submittedData.documents.photo.name}</a></p>
+              <p><strong>Interest:</strong> {submittedData.interest}</p>
+              <p><strong>Total Amount:</strong> {submittedData.totalAmount}</p>
+              <p><strong>Guarantor Full Name:</strong> {submittedData.guarantorFullName}</p>
+              <p><strong>Guarantor Phone Number:</strong> {submittedData.guarantorPhoneNumber}</p>
+              <p><strong>Guarantor Email:</strong> {submittedData.gemail}</p>
+              <p><strong>Guarantor Address:</strong> {submittedData.guarantorAddress}</p>
+              <p><strong>Guarantor Aadhaar Card Attached:</strong> <a href={submittedData.gdocuments.gaadhaar.url} target="_blank" rel="noopener noreferrer">{submittedData.gdocuments.gaadhaar.name}</a></p>
+        <p><strong>Guarantor Photo Attached:</strong> <a href={submittedData.gdocuments.gphoto.url} target="_blank" rel="noopener noreferrer">{submittedData.gdocuments.gphoto.name}</a></p>
+             
+ 
+ 
+            </div>
+          )}
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="primary" onClick={() => setSuccessMessage(false)}>
+            OK
+          </CButton>
+        </CModalFooter>
+      </CModal>
       </CRow>
-     
-      
-      
-        
-    
     </div>
   );
 }
 
 export default Daily;
+

@@ -6,6 +6,9 @@ import { CRow, CCol } from '@coreui/react';
 import Checking from './Checking.js';
 import Widgets from './Widgets.js';
 
+import Farmers from './Farmers.js';
+
+
 function Finances() {
   return (
     <div>
@@ -21,6 +24,9 @@ function Finances() {
         </CCol>
         <CCol sm={3} xl={3} xxl={3}>
           <Checking />
+        </CCol>
+        <CCol sm={3} xl={3} xxl={3}>
+        <Farmers />
         </CCol>
       </CRow>
       <CRow>

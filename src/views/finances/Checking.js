@@ -166,23 +166,13 @@ function Checking() {
   return (
     <div>
       <CRow>
-        <CCol>
-          <CWidgetStatsA
+     <CCol >
+            <CWidgetStatsA
             className="mb-4"
             color="danger"
             value="Checking"
-            action={
-              <CDropdown>
-                <CDropdownToggle caret={false} color="transparent" className="p-0">
-                  <CIcon icon={cilOptions} className="text-white" />
-                </CDropdownToggle>
-                <CDropdownMenu>
-                  <CDropdownItem onClick={() => setNewRegistration(true)}>
-                    New person Registration
-                  </CDropdownItem>
-                </CDropdownMenu>
-              </CDropdown>
-            }
+            // title="Daily"
+            onClick={() => setNewRegistration(!newRegistration)}
             chart={
               <CChartLine
                 className="mt-3 mx-3"

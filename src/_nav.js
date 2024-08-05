@@ -17,6 +17,12 @@ const _nav = [
     name: 'Farmer',
     to: '/farmer',
   },
+  // {
+  //   component: CNavItem,
+  //   name: 'FarmerRegistration',
+  //   to: '/finances/farmerRegistration',
+  // },
+  
   {
     component: CNavGroup,
     name: 'Notifications',

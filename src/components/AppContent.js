@@ -24,7 +24,6 @@ const AppContent = () => {
             )
           })}
           <Route path="/" element={<Navigate to="finances" replace />} />
-         
         </Routes>
       </Suspense>
     </CContainer>

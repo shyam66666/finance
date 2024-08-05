@@ -1,28 +1,20 @@
-import React from 'react';
-import {
-  CRow,
-  CCol,
-  CWidgetStatsA,
-} from '@coreui/react';
-import { CChartLine } from '@coreui/react-chartjs';
-import { getStyle } from '@coreui/utils'
 import { useNavigate } from 'react-router-dom';
+import { CRow, CCol, CWidgetStatsA } from '@coreui/react';
+import { CChartLine } from '@coreui/react-chartjs';
+import { getStyle } from '@coreui/utils';
 
-function Daily() {
+function Farmers() {
   const navigate = useNavigate();
   
   return (
     <div>
       <CRow>
-     <CCol >
-            <CWidgetStatsA
-           className="mb-4"
-           color="info"
-           value="Daily"
-           
-            // title="Daily"
-            onClick={() => navigate('/finances/DailyRegistration')}
-           
+        <CCol>
+          <CWidgetStatsA
+            className="mb-4"
+            color="success"
+            value="Farmers"
+            onClick={() => navigate('/finances/FarmerRegistration')}
             chart={
               <CChartLine
                 className="mt-3 mx-3"
@@ -34,7 +26,7 @@ function Daily() {
                       label: 'My First dataset',
                       backgroundColor: 'transparent',
                       borderColor: 'rgba(255,255,255,.55)',
-                      pointBackgroundColor: getStyle('--cui-info'),
+                      pointBackgroundColor: getStyle('--cui-success'),
                       data: [65, 59, 84, 84, 51, 55, 40],
                     },
                   ],
@@ -87,15 +79,9 @@ function Daily() {
             }
           />
         </CCol>
-
       </CRow>
     </div>
   );
 }
 
-export default Daily;
-
-
-
-
-
+export default Farmers;

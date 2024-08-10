@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
  
   CModal,
@@ -15,6 +15,7 @@ import {
 } from '@coreui/react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 
 function DailyRegistration() {
 
@@ -46,6 +47,42 @@ function DailyRegistration() {
   const [gerror, setgError] = useState('');
   const [gaadhaar, setgAadhaar] = useState({ file: null, name: '' });
   const [gphoto, setgPhoto] = useState({ file: null, name: '' });
+
+  useEffect(() => {
+    const autofillData = () => {
+      const startDate = new Date().toISOString().slice(0, 10);
+      const tenure = '10';
+      const finalDate = getFinalDate(startDate, 10);
+      const principal = '10000';
+      const rate = '5';
+      const interest = calculateInterest(principal, rate, tenure);
+      const totalAmount = parseFloat(principal) + interest;
+
+      setStartDate(startDate);
+      setTenure(tenure);
+      setFinalDate(finalDate);
+      setPrincipal(principal);
+      setRate(rate);
+      setInterest(interest);
+      setTotalAmount(totalAmount);
+      setEmail('test@example.com');
+      setPhoneNumber('1234567890');
+      setFullName('John Doe');
+      setAddress('123 Test St, Test City');
+      setAadhaar({ file: new File([''], 'aadhaar.pdf'), name: 'aadhaar.pdf' });
+      setCollateral({ file: new File([''], 'collateral.pdf'), name: 'collateral.pdf' });
+      setPromissoryNote({ file: new File([''], 'promissory_note.pdf'), name: 'promissory_note.pdf' });
+      setPhoto({ file: new File([''], 'photo.jpg'), name: 'photo.jpg' });
+      setGuarantorFullName('Jane Doe');
+      setGuarantorPhoneNumber('0987654321');
+      setGuarantorAddress('456 Test Ave, Test City');
+      setgEmail('guarantor@example.com');
+      setgAadhaar({ file: new File([''], 'guarantor_aadhaar.pdf'), name: 'guarantor_aadhaar.pdf' });
+      setgPhoto({ file: new File([''], 'guarantor_photo.jpg'), name: 'guarantor_photo.jpg' });
+    };
+
+    autofillData();
+  }, []);
 
   const handleDateChange = (e) => {
     setStartDate(e.target.value);

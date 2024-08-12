@@ -8,6 +8,8 @@ import {
   CTableHeaderCell,
   CTableDataCell,
 } from '@coreui/react';
+import {useQuery} from 'react-query'
+import { getFinance } from '../../API/services';
 
 const headers = [
   'Id', 'Full Name', 'Phone Number', 'Email', 'Address', 'Principal', 'Rate',
@@ -90,6 +92,10 @@ const data = [
 ];
 
 function Member() {
+
+  const {data: members} = useQuery("getFianance",getFinance)
+  console.log('members', members)
+
   const [records, setRecords] = useState(data);
 
   const handleFilter = (event) => {
